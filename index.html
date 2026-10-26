@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>1 Collection — скоро открытие</title>
+    <meta name="description" content="1 Collection — портал коллекционеров: серии и экземпляры любой темы, своя коллекция, списки на покупку и обмен. Скоро открытие.">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+
+    <link rel="canonical" href="https://1collection.app/">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="assets/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="assets/icon.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="1 Collection">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:title" content="1 Collection — скоро открытие">
+    <meta property="og:description" content="Портал коллекционеров: серии и экземпляры любой темы, своя коллекция, списки на покупку и обмен.">
+    <meta property="og:url" content="https://1collection.app/">
+    <meta property="og:image" content="https://1collection.app/assets/og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="preload" href="assets/fonts/geist-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/banner.webp" as="image" media="(min-width: 40rem)" fetchpriority="high">
+    <link rel="preload" href="assets/banner-narrow.webp" as="image" media="(max-width: 39.99rem)" fetchpriority="high">
+
+    <style>
+        /* Шрифты портала, со своего адреса: Geist — текст, Barlow Condensed —
+           только знак «1» и слово COLLECTION логотипа. Лицензии — рядом,
+           в assets/fonts/*.OFL.txt. */
+        @font-face {
+            font-family: "Geist";
+            font-weight: 100 900;
+            font-display: swap;
+            src: url("assets/fonts/geist-cyrillic.woff2") format("woff2");
+            unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116;
+        }
+        @font-face {
+            font-family: "Geist";
+            font-weight: 100 900;
+            font-display: swap;
+            src: url("assets/fonts/geist-latin.woff2") format("woff2");
+            unicode-range: U+0000-00FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: "Barlow Condensed";
+            font-weight: 600;
+            font-display: swap;
+            src: url("assets/fonts/barlow-condensed-600-latin.woff2") format("woff2");
+            unicode-range: U+0000-00FF;
+        }
+
+        /* Токены — те же значения, что в globals.css портала; текст
+           в светлой теме — чёрный по всей странице, и основной,
+           и второстепенный. */
+        :root {
+            --page: 90rem;
+            --background: #ffffff;
+            --foreground: #000000;
+            --muted: #f5f5f7;
+            --muted-foreground: #000000;
+            --border: #d2d2d7;
+            --accent: #0071e3;
+            --focus: #0071e3;
+            --link: #0066cc;
+            --button-primary: #0071e3;
+            --button-primary-hover: #0076df;
+            --button-primary-foreground: #ffffff;
+            --footer-foreground: #000000;
+            --logo-mark: #2b2b2d;
+            --logo-mark-foreground: #f2f2f3;
+            --logo-wordmark: #1d1f20;
+            --main-pt: 1rem;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background: oklch(0.145 0 0);
+                --foreground: #f5f5f7;
+                --muted: #262628;
+                --muted-foreground: #98989d;
+                --border: #424245;
+                --accent: #6ea8fe;
+                --link: #6ea8fe;
+                --footer-foreground: #c7c7cc;
+                --logo-mark: #f2f2f3;
+                --logo-mark-foreground: #2b2b2d;
+                --logo-wordmark: #f2f2f3;
+            }
+        }
+        @media (width >= 48rem) {
+            :root { --main-pt: 1.5rem; }
+        }
+        @media (width >= 64rem) {
+            :root { --main-pt: 2rem; }
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--background);
+            color: var(--foreground);
+            font-family: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+            font-size: 1rem;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, p, ul { margin: 0; }
+        img { display: block; max-width: 100%; }
+
+        /* Контур фокуса — одно правило, как в портале. */
+        :focus-visible {
+            outline: 2px solid var(--focus);
+            outline-offset: 2px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--page);
+            margin-inline: auto;
+            padding-inline: 1rem;
+        }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Логотип — знак со срезанным углом и слово COLLECTION
+           (components/site-logo.tsx). */
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            --size: 24px;
+        }
+        .logo-mark {
+            width: var(--size);
+            height: var(--size);
+            flex-shrink: 0;
+            display: flex;
+            align-items: flex-end;
+            padding: calc(var(--size) / 8);
+            background: var(--logo-mark);
+            clip-path: polygon(0 0, 58% 0, 100% 42%, 100% 100%, 0 100%);
+        }
+        .logo-mark span,
+        .logo-word {
+            font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+            font-weight: 600;
+            font-size: calc(var(--size) * 3 / 4);
+            line-height: 1;
+        }
+        .logo-mark span { color: var(--logo-mark-foreground); }
+        .logo-word {
+            letter-spacing: 0.01em;
+            color: var(--logo-wordmark);
+        }
+
+        /* Шапка — 48px, как у портала. */
+        .site-header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            min-height: 3rem;
+            padding-block: 0.5rem;
+        }
+        /* Ниже 480px подпись переносится на две строки — там её нет,
+           то же самое говорит заголовок баннера. */
+        .header-note {
+            display: none;
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+        @media (width >= 30rem) {
+            .header-note { display: inline; }
+        }
+
+        /* Баннер — во всю ширину, как на главной: картинка, подложка
+           градиентом снизу вверх и текст поверх (home/banner-slide.tsx). */
+        .hero {
+            position: relative;
+            display: grid;
+            min-height: min(42rem, calc(100svh - 3rem));
+            background: var(--muted);
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgb(0 0 0 / 0.45);
+        }
+        .hero picture,
+        .hero-scrim {
+            position: absolute;
+            inset: 0;
+        }
+        .hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hero-scrim {
+            background: linear-gradient(to top, rgb(0 0 0 / 0.75), rgb(0 0 0 / 0.6) 50%, rgb(0 0 0 / 0.2));
+        }
+        .hero-body {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding-block: 2rem;
+        }
+        .eyebrow {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.625rem;
+            background: #ffffff;
+            color: #000000;
+            text-shadow: none;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+        .eyebrow::before {
+            content: "";
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background: #0071e3;
+        }
+        /* heading-1 портала (48px); на узком экране — heading-3 (32px),
+           чтобы название не рвалось на 320px. */
+        .hero h1 {
+            max-width: 48rem;
+            font-size: 2rem;
+            line-height: 1.125;
+            font-weight: 600;
+            letter-spacing: 0.004em;
+            overflow-wrap: anywhere;
+            text-wrap: balance;
+        }
+        .hero-lead {
+            max-width: 42rem;
+            font-size: 1rem;
+            line-height: 1.45;
+            text-wrap: pretty;
+        }
+        .hero-lead--en { font-size: 0.875rem; }
+        @media (width >= 40rem) {
+            .hero-body {
+                gap: 1.25rem;
+                padding-block: 3rem;
+            }
+            .hero h1 {
+                font-size: 3rem;
+                line-height: 1.0834933333;
+                letter-spacing: -0.003em;
+            }
+            .hero-lead { font-size: 1.125rem; }
+            .hero-lead--en { font-size: 1rem; }
+        }
+
+        /* Кнопки default и outline портала (ui/button.tsx): 32px высотой —
+           сразу порог цели на сенсорном экране, скругление 4px. */
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.375rem;
+            min-height: 2rem;
+            padding: 0 0.75rem;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            font: inherit;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            text-shadow: none;
+            white-space: nowrap;
+            transition: background-color 0.15s, border-color 0.15s;
+        }
+        .button svg {
+            width: 1rem;
+            height: 1rem;
+            flex-shrink: 0;
+        }
+        .button--primary {
+            background: var(--button-primary);
+            border-color: var(--button-primary);
+            color: var(--button-primary-foreground);
+        }
+        .button--primary:hover {
+            background: var(--button-primary-hover);
+            border-color: var(--button-primary-hover);
+        }
+        /* Outline поверх снимка — белая, как кнопка outline светлой темы. */
+        .button--outline {
+            background: #ffffff;
+            border-color: #d2d2d7;
+            color: #000000;
+        }
+        .button--outline:hover {
+            background: #fafafa;
+            border-color: var(--button-primary);
+        }
+        /* На тёмной подложке снимка синий контур теряется — белый. */
+        .hero :focus-visible { outline-color: #ffffff; }
+
+        main { flex: 1; }
+
+        /* Что будет на портале — плитки с серой заливкой, без рамки. */
+        .features {
+            padding-block: calc(var(--main-pt) * 2);
+        }
+        .features h2 {
+            font-size: 1.5rem;
+            line-height: 1.1666666667;
+            font-weight: 600;
+            letter-spacing: 0.009em;
+        }
+        .features-intro {
+            margin-top: 0.5rem;
+            max-width: 42rem;
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        @media (width >= 40rem) {
+            .feature-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (width >= 64rem) {
+            .feature-list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        }
+        .feature {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1.25rem;
+            border-radius: 1rem;
+            background: var(--muted);
+        }
+        .feature-icon {
+            display: inline-flex;
+            width: 2rem;
+            height: 2rem;
+            margin-bottom: 0.25rem;
+            color: var(--accent);
+        }
+        .feature-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+        .feature h3 {
+            font-size: 1.125rem;
+            line-height: 1.2105263158;
+            font-weight: 600;
+            letter-spacing: 0.012em;
+        }
+        .feature p {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        /* Подвал — приглушённый фон, контакты кругами, как у портала
+           (site-footer.tsx). */
+        .site-footer {
+            background: var(--muted);
+            color: var(--footer-foreground);
+            font-size: 0.875rem;
+        }
+        .site-footer .container {
+            padding-block: 2rem;
+        }
+        .contacts {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            border: 1px solid transparent;
+            border-radius: 50%;
+            background: var(--background);
+            color: var(--foreground);
+            transition: background-color 0.15s, color 0.15s;
+        }
+        .contact-link:hover {
+            background: var(--button-primary);
+            color: var(--button-primary-foreground);
+        }
+        .contact-link svg {
+            width: 1rem;
+            height: 1rem;
+        }
+        .footer-text {
+            margin-top: 2rem;
+            max-width: 61.25rem;
+            font-size: 0.75rem;
+        }
+        .footer-bottom {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.75rem;
+        }
+        .link-text {
+            color: var(--link);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+            }
+        }
+        /* Высокая контрастность Windows: фоны стираются — границы остаются
+           рамками, подложка снимка не нужна. */
+        @media (forced-colors: active) {
+            .hero-scrim { display: none; }
+            .eyebrow, .button, .contact-link, .feature { border: 1px solid CanvasText; }
+            .eyebrow::before { background: CanvasText; }
+            .logo-mark { background: CanvasText; }
+            .logo-mark span { color: Canvas; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <span class="logo">
+                <span class="logo-mark" aria-hidden="true"><span>&nbsp;1</span></span>
+                <span class="logo-word" aria-hidden="true">COLLECTION</span>
+                <span class="sr-only">1 Collection</span>
+            </span>
+            <span class="header-note">Портал коллекционеров</span>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero" aria-labelledby="title">
+            <picture>
+                <source media="(max-width: 39.99rem)" srcset="assets/banner-narrow.webp" width="600" height="768">
+                <img src="assets/banner.webp" width="1376" height="768" alt="" fetchpriority="high">
+            </picture>
+            <div class="hero-scrim" aria-hidden="true"></div>
+
+            <div class="hero-body container">
+                <p class="eyebrow">Скоро открытие</p>
+                <h1 id="title">1 Collection — портал коллекционеров</h1>
+                <p class="hero-lead">
+                    Серии и экземпляры любой темы, своя коллекция, списки на покупку
+                    и обмен. Собирать можно что угодно — вкладыши, наклейки, карточки,
+                    монеты, марки, обёртки: каталог темой не ограничен.
+                </p>
+                <p class="hero-lead hero-lead--en" lang="en">
+                    Coming soon: a portal for collectors — series and items of any theme,
+                    your own collection, lists for buying and trading.
+                </p>
+                <div class="actions">
+                    <a class="button button--primary" href="mailto:info@1collection.app">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        Написать нам
+                    </a>
+                    <a class="button button--outline" href="https://www.instagram.com/1collection_app" target="_blank" rel="noopener noreferrer">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+                        Следить в Instagram<span class="sr-only"> (в новой вкладке)</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features container" aria-labelledby="features-title">
+            <h2 id="features-title">Что будет на портале</h2>
+            <p class="features-intro">
+                Мы заканчиваем подготовку каталога и личных разделов. Вот с чего портал
+                начнёт работу.
+            </p>
+            <ul class="feature-list">
+                <li class="feature">
+                    <span class="feature-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    </span>
+                    <h3>Каталог серий</h3>
+                    <p>Категории, производители и серии с позициями — от первой до последней, с фото и описаниями.</p>
+                </li>
+                <li class="feature">
+                    <span class="feature-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                    </span>
+                    <h3>Своя коллекция</h3>
+                    <p>Отмечайте, что уже собрано: экземпляры с состоянием и ценой, прогресс по каждой серии.</p>
+                </li>
+                <li class="feature">
+                    <span class="feature-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>
+                    </span>
+                    <h3>Обмен</h3>
+                    <p>Чего не хватает и что можно предложить — портал сам подберёт участников с совпадениями.</p>
+                </li>
+                <li class="feature">
+                    <span class="feature-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg>
+                    </span>
+                    <h3>Списки и избранное</h3>
+                    <p>Списки на покупку, отслеживаемые серии и избранное — всё под рукой в одном профиле.</p>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <span class="logo">
+                <span class="logo-mark" aria-hidden="true"><span>&nbsp;1</span></span>
+                <span class="logo-word" aria-hidden="true">COLLECTION</span>
+                <span class="sr-only">1 Collection</span>
+            </span>
+            <ul class="contacts" aria-label="Связаться с нами">
+                <li>
+                    <a class="contact-link" href="https://www.instagram.com/1collection_app" target="_blank" rel="noopener noreferrer">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+                        <span class="sr-only">1 Collection в Instagram (в новой вкладке)</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="contact-link" href="mailto:info@1collection.app">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        <span class="sr-only">Написать на info@1collection.app</span>
+                    </a>
+                </li>
+            </ul>
+            <p class="footer-text">
+                Портал для коллекционеров, некоммерческий и информационный. Вопросы
+                и предложения — на <a class="link-text" href="mailto:info@1collection.app">info@1collection.app</a>.
+            </p>
+            <p class="footer-bottom">© 2026. 1 Collection. Все права защищены.</p>
+        </div>
+    </footer>
+</body>
+</html>
